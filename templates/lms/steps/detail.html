@@ -1,0 +1,22 @@
+{% extends 'lms/lessons/detail.html' %}{% load static %}
+{% block breadcrumb %}
+<li class="breadcrumb-item">
+    <a href="{% url 'LMS_UserProfile' %}" class="text-decoration-none">Аккаунт</a>
+</li>
+<li class="breadcrumb-item">
+    <a href="{% url 'LMS_UserCoursesList' %}" class="text-decoration-none">Мои курсы</a>
+</li>
+<li class="breadcrumb-item">
+    <a href="{{ step.get_current_lesson.topic.course.get_lms_detail_url }}" class="text-decoration-none">{{ step.get_current_lesson.topic.course.title }}</a>
+</li>
+<li class="breadcrumb-item">
+    {{ step.get_current_lesson.topic.title }}
+</li>
+<li class="breadcrumb-item">
+    <a href="{{ step.get_current_lesson.get_lms_detail_url }}" class="text-decoration-none">{{ step.get_current_lesson.title }}</a>
+</li>
+<li class="breadcrumb-item active">
+    {{ step.title }}
+</li>
+{% endblock breadcrumb %}
+{% block buttons %}{% user_end_step step %}{% endblock %}

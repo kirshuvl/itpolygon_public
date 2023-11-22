@@ -1,0 +1,61 @@
+{% extends 'lms/dashboard.html' %}
+{% block breadcrumb %}
+<li class="breadcrumb-item">
+    <a href="{% url 'LMS_UserProfile' %}" class="text-decoration-none">Аккаунт</a>
+</li>
+<li class="breadcrumb-item active">
+    Мои курсы
+</li>
+{% endblock %}
+{% block content %}
+<div class="card shadow">
+    <div class="card-header bg-transparent p-3">
+        <div class="d-flex justify-content-between">
+            <h4 class="m-0 text-truncate"><i class="bi bi-ui-checks-grid me-2"></i>Мои курсы</h4>
+        </div>
+    </div>
+    {% if courses %}
+    <div class="card-body">
+        <div class="card mb-2">
+            <div class="card-body p-2">
+                <div class="row align-items-center">
+                    <div class="col-2 col-md-1 border-end pe-2">
+                        <span class="badge bg-primary p-2 col-12"><i class="bi bi-card-image"></i></span>
+                    </div>
+                    <div class="col-7 col-md-6 col-xl-7 border-end">
+                        Название курса
+                    </div>
+                    <div class="d-none d-md-block col-md-2 border-end text-center">
+                        %
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% for course in courses %}
+        <div class="card {% if not forloop.last %}mb-1{% else %}mb-0{% endif %}">
+            <div class="card-body p-2">
+                <div class="row align-items-center">
+                    <div class="col-2 col-md-1 border-end pe-2">
+                        <img src="{{ course.icon.url }}" class="rounded p-0 img-fluid bg-light" alt="{{ course.title }}">
+                    </div>
+                    <div class="col-7 col-md-6 col-xl-7 border-end">
+                        {{ course.title }}
+                    </div>
+                    <div class="d-none d-md-block col-md-2 border-end text-center text-secondary">
+                        {{ course.get_user_percentage }}
+                    </div>
+                    <div class="col-3 col-xl-2 ps-2">
+                        <a href="{{ course.get_lms_detail_url }}" class="stretched-link"><span class="badge btn btn-primary p-2 col-12"><i class="bi bi-play-circle m-sm-2"></i><span class="d-none d-md-inline-block">Продолжить</span></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="card-body text-center text-danger">
+        Вы не зачислены ни на один курс :( Напишите мне и я добавлю ваши курсы!
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

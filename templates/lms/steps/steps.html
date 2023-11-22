@@ -1,0 +1,5 @@
+{% for step_ in steps %}
+<a href="{{ step_.get_lms_detail_url }}" class="text-decoration-none">
+    <span class="badge bg-{{ step_.enroll_color }} p-2 rounded{% if not forloop.last %} me-1{% endif %} {% if step_ != step %}opacity-50{% endif%}"><i class="bi {{ step_.icon_class }}"></i></span>
+</a>
+{% endfor %}

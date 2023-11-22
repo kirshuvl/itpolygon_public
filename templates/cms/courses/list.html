@@ -1,0 +1,61 @@
+{% extends 'cms/dashboard.html' %}
+{% block breadcrumb %}
+<li class="breadcrumb-item">
+    <a href="{% url 'CMS_Dashboard' %}" class="text-decoration-none">CMS</a>
+</li>
+<li class="breadcrumb-item active">
+    Мои курсы
+</li>
+{% endblock breadcrumb %}
+{% block content %}
+<div class="card shadow">
+    <div class="card-header bg-transparent p-3">
+        <div class="d-flex justify-content-between">
+            <h4 class="m-0 text-truncate"><i class="bi bi-ui-checks-grid me-2"></i>Мои курсы</h4>
+            <a href="{% url 'CMS_CourseCreate' %}"><span class="badge bg-success p-2 opacity-50 text-white"><i class="bi bi-plus-square me-md-2"></i><span class="d-none d-md-inline-block">Добавить курс</span></span></a>
+        </div>
+    </div>
+    {% if courses %}
+    <div class="card-body">
+        <div class="card mb-2">
+            <div class="card-body p-2">
+                <div class="row align-items-center">
+                    <div class="col-2 col-md-1 border-end pe-2">
+                        <span class="badge bg-secondary opacity-50 p-2 col-12"><i class="bi bi-card-image"></i></span>
+                    </div>
+                    <div class="col-7 col-md-8 col-xxl-9 border-end">
+                        Название курса
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% for course in courses %}
+        <div class="card {% if not forloop.last %}mb-1{% else %}mb-0{% endif %}">
+            <div class="card-body p-2">
+                <div class="row align-items-center">
+                    <div class="col-2 col-md-1 border-end pe-2">
+                        <img src="{{ course.icon.url }}" class="rounded p-0 img-fluid bg-light" alt="{{ course.title }}">
+                    </div>
+                    <div class="col-7 col-md-8 col-xxl-9 border-end">
+                        {{ course.title }}
+                    </div>
+                    <div class="col-3 col-xxl-2 ps-2">
+                        <a href="{{ course.get_cms_detail_url }}">
+                            <span class="badge btn btn-primary p-2 col-12 opacity-50">
+                                <i class="bi bi-pencil m-sm-1"></i>
+                                <span class="d-none d-md-inline-block">Редактировать</span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="card-body text-center text-danger">
+        Вы еще не <a href="{% url 'CMS_CourseCreate' %}" class="text-decoration-none">создали</a> ни одного курса :(
+    </div>
+    {% endif %}
+</div>
+{% endblock content %}

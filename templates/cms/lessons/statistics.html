@@ -1,0 +1,87 @@
+{% extends 'cms/dashboard.html' %}
+{% block page_title %}{{ page_title }}{% endblock %}
+{% block breadcrumb %}
+<li class="breadcrumb-item">
+    <a href="{% url 'CMS_Dashboard' %}" class="text-decoration-none">CMS</a>
+</li>
+<li class="breadcrumb-item">
+    <a href="{% url 'CMS_CoursesList' %}" class="text-decoration-none">Мои курсы</a>
+</li>
+<li class="breadcrumb-item active">
+    <a href="{{ lesson.topic.course.get_cms_url }}" class="text-decoration-none">{{ lesson.topic.course.title }}</a>
+</li>
+<li class="breadcrumb-item active">
+    {{ lesson.topic.title }}
+</li>
+<li class="breadcrumb-item active">
+    Статистика урока
+</li>
+{% endblock %}
+{% block main_content %}
+<div class="card shadow mb-2">
+    <div class="card-header bg-transparent p-3">
+        <div class="row">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h4 class="m-0"><i class="bi bi-ui-checks-grid me-3"></i>Статистика урока: {{ lesson.title }}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row gx-2">
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body border-bottom p-2">
+                        <div class="border-bottom mb-2 pb-1">Урок -></div>
+                        <span class="badge bg-secondary p-2 rounded me-2"><i class="bi bi-person"></i></span>Фамилия Имя
+                    </div>
+                    {% for user in users %}
+                    <div class="card-body {% if not forloop.last %}border-bottom{% endif %} p-2">
+                        <span class="badge bg-secondary p-2 rounded me-2"><i class="bi bi-person"></i></span><a href="#" class="text-decoration-none">{{ user.first_name }} {{ user.last_name }}</a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-9">
+                <style>
+                    .scroll {
+                        overflow: auto;
+                        -ms-overflow-style: none;
+                        scrollbar-width: none;
+                    }
+                    .scroll::-webkit-scrollbar {
+                        width: 0;
+                        height: 0;
+                    }
+                </style>
+                <div class="card overflow-auto scroll">
+                    {% for user in users %}
+                    {% if forloop.first %}
+                    <div class="card-body p-0 d-flex">
+                        <div class="d-flex p-2 border-bottom pe-1">
+                            <div>
+                                <div class="border-bottom mb-2 text-truncate pb-1"><a href="{{ lesson.get_absolute_url }}" class="text-decoration-none">{{ lesson.title }}</a></div>
+                                <div class="d-flex">
+                                    {% for step in lesson.steps.all %}
+                                    <a href="{{ step.get_absolute_url }}"><span class="badge bg-secondary p-2 rounded me-1"><i class="bi {{ step.step_icon_class }}"></i></span></a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="card-body p-0 d-flex">
+                        <div class="d-flex p-2 {% if not forloop.last %}border-bottom{% endif %} pe-1">
+                            {% for step in lesson.steps.all %}
+                            <span class="badge bg-{% step_colors step user %} p-2 rounded me-1 opacity-50"><i class="bi {{ step.step_icon_class }}"></i></span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
